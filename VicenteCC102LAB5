@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    char ans;
+
+    do {
+        int students, schDays;
+
+        cout << "Enter number of students: ";
+        cin >> students;
+
+        cout << "Enter number of school days: ";
+        cin >> schDays;
+
+        vector<vector<int>> attendance(students, vector<int>(schDays));
+
+        
+        for (int i = 0; i < students; i++) {
+            cout << "\nStudent " << i + 1 << " attendance:\n";
+            for (int j = 0; j < schDays; j++) {
+                cout << "Day " << j + 1 << " (1=Present, 0=Absent): ";
+                cin >> attendance[i][j];
+            }
+        }
+
+        
+        cout << "\nStudent ";
+        for (int d = 0; d < schDays; d++)
+            cout << "D" << d + 1 << " ";
+        cout << "Total Percent Remarks\n";
+
+        
+        for (int i = 0; i < students; i++) {
+            int total = 0;
+
+            cout << i + 1 << "        ";
+
+            for (int j = 0; j < schDays; j++) {
+                cout << attendance[i][j] << " ";
+                total += attendance[i][j];
+            }
+
+            double percent = (double)total / schDays * 100;
+            string remark = (percent < 50) ? "DRP" : "OK";
+
+            cout << total << "       ";
+            cout << percent << "%     ";
+            cout << remark << endl;
+        }
+
+        cout << "\nRun again? (y/n): ";
+        cin >> ans;
+
+    } while (ans == 'y' || ans == 'Y');
+
+    return 0;
+}
