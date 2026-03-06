@@ -1,0 +1,142 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+
+    char rep;
+    int computers[5][10] = {0};
+    int choice;
+
+    do {
+
+        cout << "\n===== COMPUTER SHOP RENTAL SYSTEM =====\n";
+        cout << "1. View Computer Layout\n";
+        cout << "2. Rent a Computer\n";
+        cout << "3. Return a Computer\n";
+        cout << "4. Reset Rental System\n";
+        cout << "5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch(choice) {
+
+        case 1: {
+
+            cout << "\nView Computer Layout\n";
+            cout << "   ";
+            for(int c=0; c<10; c++)
+                cout << c+1 << " ";
+            cout << endl;
+
+            for(int r=0; r<5; r++) {
+                cout << char('A'+r) << "  ";
+                for(int c=0; c<10; c++) {
+                    cout << computers[r][c] << " ";
+                }
+                cout << endl;
+            }
+
+            break;
+        }
+
+        case 2: {
+        
+        cout<< "\nRent a Computer\n";
+
+            int row, col, hours;
+
+            cout << "Enter row (1-5): ";
+            cin >> row;
+
+            cout << "Enter column (1-10): ";
+            cin >> col;
+
+            cout << "Enter hours: ";
+            cin >> hours;
+
+            row--;
+            col--;
+
+            if(row<0 || row>=5 || col<0 || col>=10) {
+                cout << "Invalid location!\n";
+            }
+            else if(computers[row][col] > 0) {
+                cout << "Computer unit already rented!\n";
+            }
+            else {
+                computers[row][col] = hours;
+
+                cout << "Computer unit "
+                     << char('A'+row) << col+1
+                     << " successfully rented for "
+                     << hours << " hour(s).\n";
+            }
+
+            break;
+        }
+
+        case 3: {
+        
+        cout<< "\nReturn a Computer\n";
+
+            int row, col;
+
+            cout << "Enter row (1-5): ";
+            cin >> row;
+
+            cout << "Enter column (1-10): ";
+            cin >> col;
+
+            row--;
+            col--;
+
+            if(row<0 || row>=5 || col<0 || col>=10) {
+                cout << "Invalid location!\n";
+            }
+            else if(computers[row][col] == 0) {
+                cout << "Computer unit is already available!\n";
+            }
+            else {
+
+                int hours = computers[row][col];
+                double sale = hours * 20.00;
+
+                cout << "Computer unit "
+                     << char('A'+row) << col+1
+                     << " has been returned.\n";
+
+                cout << "Rental Sale: P" << sale << endl;
+
+                computers[row][col] = 0;
+            }
+            
+
+            break;
+        }
+
+        case 4: {
+
+            for(int r=0; r<5; r++)
+                for(int c=0; c<10; c++)
+                    computers[r][c] = 0;
+
+            cout << "Rental system reset successfully!\n";
+
+            break;
+        }
+
+        case 5:
+            cout << "Exiting program...\n";
+            break;
+
+        default:
+            cout << "Invalid choice!\n";
+
+        }
+    cout<<"Repeat again? (Y/)N :";
+    cin>>rep;
+    
+    } while(rep == 'y' || rep == 'Y');
+
+    return 0;
+}
