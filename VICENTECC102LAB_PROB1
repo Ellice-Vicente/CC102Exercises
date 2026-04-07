@@ -1,0 +1,102 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct student {
+    string studentID;
+    string name;
+    string course;
+    int gpa;
+};
+
+string getStanding(int gpa) {
+    if (gpa >= 90) return "Excellent";
+    else if (gpa >= 80) return "Very Good";
+    else if (gpa >= 70) return "Good";
+    else if (gpa >= 60) return "Passing";
+    else return "Failed";
+}
+
+bool isUniqueID(const vector<student>& students, string id) {
+    for (int i = 0; i < students.size(); i++) {
+        if (students[i].studentID == id)
+            return false;
+    }
+    return true;
+}
+
+void display(const vector<student>& students) {
+    cout << "\nID\tName\tCourse\tGPA\tStanding\n";
+    for (int i = 0; i < students.size(); i++) {
+        cout << students[i].studentID << "\t"
+             << students[i].name << "\t"
+             << students[i].course << "\t"
+             << students[i].gpa << "\t"
+             << getStanding(students[i].gpa) << endl;
+    }
+}
+
+int main() {
+    vector<student> students;
+    int choice;
+
+    do {
+        cout << "\n1. Add Student\n2. Edit Student\n3. Delete Student\n4. Display Students\n5. Exit\nChoice: ";
+        cin >> choice;
+        cin.ignore();
+
+        if (choice == 1) {
+            student s;
+
+            do {
+                cout << "Enter Student ID: ";
+                getline(cin, s.studentID);
+                if (!isUniqueID(students, s.studentID))
+                    cout << "ID already exists! Try again.\n";
+            } while (!isUniqueID(students, s.studentID));
+
+            cout << "Enter Name: ";
+            getline(cin, s.name);
+            cout << "Enter Course: ";
+            getline(cin, s.course);
+            cout << "Enter GPA: ";
+            cin >> s.gpa;
+            cin.ignore();
+
+            students.push_back(s);
+        }
+        else if (choice == 2) {
+            string id;
+            cout << "Enter ID to edit: ";
+            getline(cin, id);
+            for (int i = 0; i < students.size(); i++) {
+                if (students[i].studentID == id) {
+                    cout << "New Name: ";
+                    getline(cin, students[i].name);
+                    cout << "New Course: ";
+                    getline(cin, students[i].course);
+                    cout << "New GPA: ";
+                    cin >> students[i].gpa;
+                    cin.ignore();
+                }
+            }
+        }
+        else if (choice == 3) {
+            string id;
+            cout << "Enter ID to delete: ";
+            getline(cin, id);
+            for (int i = 0; i < students.size(); i++) {
+                if (students[i].studentID == id) {
+                    students.erase(students.begin() + i);
+                    break;
+                }
+            }
+        }
+        else if (choice == 4) {
+            display(students);
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
