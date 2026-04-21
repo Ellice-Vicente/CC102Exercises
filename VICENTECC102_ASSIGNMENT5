@@ -1,0 +1,47 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    ofstream outFile("original.txt");
+
+    if (!outFile) {
+        cout << "Error creating file!" << endl;
+        return 1;
+    }
+
+    vector<string> words;
+    string word;
+
+    cout << "Enter 6 words:" << endl;
+
+    for (int i = 0; i < 6; i++) {
+        cout << "Word " << i + 1 << ": ";
+        cin >> word;
+        words.push_back(word);
+        outFile << word << endl;
+    }
+
+    outFile.close();
+
+    sort(words.begin(), words.end());
+
+    ofstream sortedFile("sorted.txt");
+
+    if (!sortedFile) {
+        cout << "Error creating sorted file!" << endl;
+        return 1;
+    }
+
+    for (string w : words) {
+        sortedFile << w << endl;
+    }
+
+    sortedFile.close();
+
+    cout << "Sorting complete! Check sorted.txt" << endl;
+
+    return 0;
+}
